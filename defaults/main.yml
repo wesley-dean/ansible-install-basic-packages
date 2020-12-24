@@ -1,0 +1,62 @@
+---
+# defaults file for install_basic_packages
+
+default_packages:
+  alpine:
+    - more
+    - less
+    - less-doc
+    - curl
+    - bash
+    - bash-doc
+    - bash-completion
+    - man-pages
+    - mdocml-apropos
+    - curl
+    - curl-doc
+    - util-linux
+    - util-linux-doc
+    - pciutils
+    - usbutils
+    - coreutils
+    - binutils
+    - findutils
+    - grep
+    - grep-doc
+    - sed
+    - attr
+    - dialog
+    - dialog-doc
+    - readline
+    - lsof
+    - lsof-doc
+    - vim
+    - vim-doc
+    - nano
+    - nano-doc
+    - pstree
+    - procps
+    - ncurses
+  debian:
+    - vim-gtk3
+    - bash
+    - bash-completion
+    - ack
+    - curl
+    - wget
+    - git
+    - ibus
+    - ibus-gtk
+    - ibus-gtk3
+    - ibus-qt4
+    - net-tools
+    - whois
+    - jq
+    - screen
+    - tmux
+    - xsel
+    - most
+    - gnupg-agent
+    - httpie
+
+local_packages: []

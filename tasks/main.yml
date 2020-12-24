@@ -1,0 +1,54 @@
+---
+# tasks file for install_basic_packages
+
+- name: Setup Alpine repositories
+  lineinfile:
+    path: /etc/apk/repositories
+    regexp: '^[[:space:]]*https?://.*/{{ item }}'
+    line: 'http://dl-cdn.alpinelinux.org/alpine/v{{ ansible_distribution_version }}/{{ item }}'
+  loop:
+    - main
+    - community
+  when:
+    ansible_os_family == "Alpine"
+
+
+- name: Install RedHat repositories
+  package:
+    name: epel-release
+    state: present
+  when:
+    ansible_os_family == "RedHat"
+
+
+- name: Update local Alpine package cache
+  apk:
+    update_cache: true
+  when:
+    ansible_os_family == "Alpine"
+
+
+- name: Update local YUM package cache
+  yum:
+    update_cache: yes
+
+
+- name: Update local APT package cache
+  apt:
+    update_cache: yes
+
+
+- name: Install basic, common packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    default_packages.{{ ansible_os_family }}
+
+
+- name: Install other packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    local_packages
