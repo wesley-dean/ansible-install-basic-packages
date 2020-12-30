@@ -37,6 +37,12 @@ pipeline {
       defaultValue: 'wesleydean/ansible-%s-tester-%s',
       description: 'the printf pattern to use to name the images'
     )
+
+    choice (
+      name: 'runtype',
+      choices: "check\nrun\nsyntax-check",
+      description: 'what kind of check to perform'
+    )
   }
 
   environment {
@@ -46,6 +52,7 @@ pipeline {
     docker_credential = "$params.docker_credential"
     ansible_version = "$params.ansible_version"
     pattern = "$params.pattern"
+    runtype = "$params.runtype"
   }
 
   triggers {
@@ -82,7 +89,7 @@ pipeline {
             steps {
               script {
                 docker.withRegistry("$registry_url", "$docker_credential") {
-                  sh (script: 'docker run --rm -t -v "$(pwd):/workdir" -e "WORKSPACE=$WORKSPACE" -e "runtype=run" "$(printf $pattern $ansible_version $PLATFORM)"')
+                  sh (script: 'docker run --rm -t -v "$(pwd):/workdir" -e "WORKSPACE=$WORKSPACE" -e "runtype=$runtype" "$(printf $pattern $ansible_version $PLATFORM)"')
                 }
               }
             }
