@@ -4,7 +4,7 @@ pipeline {
   parameters {
     string (
       name: 'repository_url',
-      defaultValue: 'https://github.com/kdaweb/ansible-role-testing-images.git',
+      defaultValue: 'https://github.com/wesley-dean/ansible-install-basic-packages.git',
       description: 'the URL to the Git repository'
     )
 
