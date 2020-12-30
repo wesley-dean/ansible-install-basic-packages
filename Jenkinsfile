@@ -82,7 +82,7 @@ pipeline {
             steps {
               script {
                 docker.withRegistry("$registry_url", "$docker_credential") {
-                  sh (script: 'docker run --rm -it -v "$(pwd):/workdir" -e "WORKSPACE=$WORKSPACE" -e "runtype=run" "$(printf $pattern $ansible_version $PLATFORM)"')
+                  sh (script: 'docker run --rm -t -v "$(pwd):/workdir" -e "WORKSPACE=$WORKSPACE" -e "runtype=run" "$(printf $pattern $ansible_version $PLATFORM)"')
                 }
               }
             }
