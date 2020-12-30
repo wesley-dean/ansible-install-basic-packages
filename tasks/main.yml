@@ -5,7 +5,7 @@
   lineinfile:
     path: /etc/apk/repositories
     regexp: '^[[:space:]]*https?://.*/{{ item }}'
-    line: 'http://dl-cdn.alpinelinux.org/alpine/v{{ ansible_distribution_version }}/{{ item }}'
+    line: "http://dl-cdn.alpinelinux.org/alpine/v{{ ansible_distribution_version | regex_replace('([0-9]*[.][0-9]*).*', '\\1') }}/{{ item }}"
   loop:
     - main
     - community
@@ -31,11 +31,15 @@
 - name: Update local YUM package cache
   yum:
     update_cache: yes
+  when:
+    ansible_os_family == "RedHat"
 
 
 - name: Update local APT package cache
   apt:
     update_cache: yes
+  when:
+    ansible_os_family == "Debian"
 
 
 - name: Install basic, common packages
@@ -43,7 +47,7 @@
     name: "{{ item }}"
     state: present
   loop:
-    default_packages.{{ ansible_os_family }}
+    "{{ default_packages[ ansible_os_family ] }}"
 
 
 - name: Install other packages
@@ -51,4 +55,4 @@
     name: "{{ item }}"
     state: present
   loop:
-    local_packages
+    "{{ local_packages }}"
